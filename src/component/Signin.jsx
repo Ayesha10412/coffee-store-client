@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../providers/AuthProvider';
+import { Link } from 'react-router';
 
 const Signin = () => {
 
@@ -13,6 +14,26 @@ const handleSignIn= e =>{
     signInUser(email, password)
     .then(result=>{
         console.log(result.user);
+
+        // update last login time
+        const lastSignInTime = result?.user?.metadata?.lastSignInTime;
+        const loginInfo = {email, lastSignInTime};
+
+        fetch(`http://localhost:5000/users`, {
+
+method:'PATCH',
+headers:{
+    'content-type': 'application/json',
+},
+body:JSON.stringify(loginInfo)
+
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log('SIgn in info update in db', data);
+        })
+
+
     })
     .catch(error=>{
         console.log(error.message)
@@ -42,6 +63,7 @@ const handleSignIn= e =>{
      <div className="form-control mt-6">
        <button className="btn btn-primary">Login</button>
      </div>
+     <p className='text-gray-400'>New To coffee drinker? <Link to='/signup' >Sign Up</Link> </p>
    </form>
  </div>
 
