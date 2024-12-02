@@ -19,7 +19,7 @@ const handleSignIn= e =>{
         const lastSignInTime = result?.user?.metadata?.lastSignInTime;
         const loginInfo = {email, lastSignInTime};
 
-        fetch(`http://localhost:5000/users`, {
+        fetch(`https://coffee-store-server-blond-beta.vercel.app/users`, {
 
 method:'PATCH',
 headers:{
